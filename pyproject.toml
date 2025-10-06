@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "introductoryrag"
+name = "pfdtrainer"
 version = "0.1.0"
 description = "learning rag"
 authors = ["etsant.18@gmail.com"]
@@ -16,6 +16,7 @@ langchain-community = "^0.3.30"
 langchain-openai = "^0.3.35"
 langchain-groq = "^0.3.8"
 python-dotenv = "^1.1.1"
+ollama = "^0.6.0"
 
 
 [build-system]
