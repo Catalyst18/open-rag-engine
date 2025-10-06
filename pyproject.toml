@@ -7,7 +7,7 @@ authors = ["etsant.18@gmail.com"]
 package-mode = false
 
 [tool.poetry.dependencies]
-python = ">=3.12,<3.13"
+python = ">=3.12,<3.14"
 pillow = "^11.3.0"
 tiktoken = "^0.11.0"
 lxml = "^6.0.2"
