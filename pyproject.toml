@@ -17,6 +17,9 @@ langchain-openai = "^0.3.35"
 langchain-groq = "^0.3.8"
 python-dotenv = "^1.1.1"
 ollama = "^0.6.0"
+fastapi = {extras = ["standard"], version = "^0.118.3"}
+python-multipart = "^0.0.20"
+pytest = "^8.4.2"
 
 
 [build-system]
