@@ -1,2 +1,2 @@
 # introductoryRag
-![img.png](img.png)
+![img.png](ideas/img.png)
