@@ -2,9 +2,16 @@
 __pycache__/
 *.py[codz]
 *$py.class
+.DS_Store
 
 # C extensions
 *.so
+
+#ollama data
+ollama_data/**
+
+#chroma data
+chroma_data/**
 
 # Distribution / packaging
 .Python
