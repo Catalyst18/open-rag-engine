@@ -1,5 +1,6 @@
 import ollama
 from pdf_processor import PdfProcessor
+from db.chroma import Chroma
 
 if __name__ == "__main__":
     print("executing code")

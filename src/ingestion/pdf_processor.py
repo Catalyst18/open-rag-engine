@@ -1,4 +1,5 @@
 from contextlib import contextmanager
+from api.models import FileInfo
 
 from base import FileProcessor
 import PyPDF2 as pdf

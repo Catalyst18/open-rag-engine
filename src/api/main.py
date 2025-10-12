@@ -1,14 +1,24 @@
 from typing import Annotated
-from fastapi import FastAPI, Path, File,UploadFile
+from fastapi import FastAPI, UploadFile, HTTPException
 from .models import FileInfo
-from .enums import FileTypes
-from fastapi import HTTPException
+from pydantic import ValidationError
 
 app = FastAPI()
 
+
 @app.post("/uploadfile/")
-async def create_upload_file(file: UploadFile) -> FileInfo: #mybook.pdf
-    if FileInfo.validated_supported(file.filename):
-        return FileInfo(file=file.filename,size=file.size)
-    else:
-        raise HTTPException(status_code=400,detail=f"Unsupported file type {file.filename}/n Only {FileTypes.PDF.value} is supported ")
+async def create_upload_file(file: UploadFile) -> FileInfo:
+    filename = file.filename or ""
+    total = 0
+    chunk = await file.read(1024 * 64)
+    while chunk:
+        total += len(chunk)
+        chunk = await file.read(1024 * 64)
+
+    try:
+        info = FileInfo(file=filename, size=total)
+    except ValidationError as exc:
+        # return pydantic's validation errors as a 400
+        raise HTTPException(status_code=400, detail=str(exc.errors()))
+
+    return info
