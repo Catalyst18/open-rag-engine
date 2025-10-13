@@ -29,14 +29,6 @@ class FileInfo(BaseModel):
             return file
         raise ValueError(f'unsupported file type: {ext}')
 
-    @classmethod
-    def validated_supported(cls, file: str) -> str | None:
-        parts = file.rsplit('.', 1)
-        if len(parts) != 2:
-            return None
-        ext = parts[1].lower()
-        allowed = {ft.value for ft in FileTypes}
-        return file if ext in allowed else None
 
 
 
