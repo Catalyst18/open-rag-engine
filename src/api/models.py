@@ -19,6 +19,7 @@ class FileInfo(BaseModel):
         raise ValueError(f'file size ({size} bytes) exceeds maximum of {max_bytes} bytes')
 
     @field_validator('file')
+    @classmethod
     def validate_file_field(cls, file: str) -> str:
         parts = file.rsplit('.', 1)
         if len(parts) != 2:
