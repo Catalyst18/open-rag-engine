@@ -13,6 +13,9 @@ ollama_data/**
 #chroma data
 chroma_data/**
 
+#fast api
+uploads/*
+
 # Distribution / packaging
 .Python
 build/
