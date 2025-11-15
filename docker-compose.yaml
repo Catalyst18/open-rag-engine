@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   ollama:
-    build: ./docker
+    build: ./docker/ollama
     container_name: ollama-phi3
     ports:
       - "11434:11434"
@@ -17,3 +17,13 @@ services:
     ports:
       - "5000:8000"
 
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile
+    container_name: fast_api
+    ports:
+      - "80:80"
+    depends_on:
+      - chroma
+      - ollama
