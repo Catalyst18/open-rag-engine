@@ -1,8 +1,10 @@
 from contextlib import contextmanager
 from typing import Any, Generator
-from api.models import FileInfo
 
-from base import FileProcessor
+import ollama
+
+
+from .base import FileProcessor
 import PyPDF2 as pdf
 
 class PdfProcessor(FileProcessor):
@@ -10,12 +12,26 @@ class PdfProcessor(FileProcessor):
         super().__init__(file)
 
     def read_contents(self) -> Generator[str, Any, None]:
-        f = open(self.file, 'rb')
+        f = open(f"/opt/app/src/uploads/{self.file}", 'rb')
+        self.log.info(f"Preparing to read file {self.file}")
         reader = pdf.PdfReader(f)
         for page in range(len(reader.pages)):
             text = reader.pages[page].extract_text()
             if text and text.strip():
                 yield text
+
+    def parse_chunks(self,chunks:Generator) ->None:
+        for chunk in chunks:
+            ollama_client = ollama.Client(host='http://ollama:11434')
+            response = ollama_client.embeddings(model='phi3', prompt=chunk)
+            # self.log.info(response)
+            embedding_vector = response['embedding']
+            self.log.info("Preparing to print embeddings")
+            self.log.info(embedding_vector)
+
+    def run(self):
+        chunks = self.read_contents()
+        self.parse_chunks(chunks=chunks)
     
 
 

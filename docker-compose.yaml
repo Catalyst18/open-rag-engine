@@ -9,6 +9,10 @@ services:
     volumes:
       - ./ollama_data:/root/.ollama
     restart: unless-stopped
+    networks:
+      - app-net
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
 
   chroma:
     image: chromadb/chroma
@@ -16,6 +20,8 @@ services:
       - ./chroma_data:/data
     ports:
       - "5000:8000"
+    networks:
+      - app-net
 
   app:
     build:
@@ -24,6 +30,13 @@ services:
     container_name: fast_api
     ports:
       - "80:80"
+    volumes:
+      - ./uploads:/opt/app/src/uploads
     depends_on:
       - chroma
       - ollama
+    networks:
+      - app-net
+
+networks:
+  app-net:

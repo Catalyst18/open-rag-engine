@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
+from common.logs import LoggingMixin
 
 
-class FileProcessor(ABC):
+class FileProcessor(ABC,LoggingMixin):
     def __init__(self,file):
         self.file = file
 

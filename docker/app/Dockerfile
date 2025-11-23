@@ -11,4 +11,6 @@ RUN poetry config virtualenvs.create false && poetry install --no-root
 
 COPY ./src /opt/app/src
 
-CMD ["uvicorn", "src.api.main:app", "--host", "0.0.0.0", "--port", "80"]
+WORKDIR /opt/app/src
+
+CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "80"]
