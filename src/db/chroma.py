@@ -1,25 +1,37 @@
+from functools import cached_property
+
 import chromadb
+from chromadb import ClientAPI
+from chromadb.types import Collection
+
 
 class Chroma:
-    def __init__(self,file_name: str,embeddings:list):
-        self.file_name = file_name
-        self.embeddings = embeddings
+    def __init__(self,collection_name:str,host="chroma",port=8000):
+        self.host = host
+        self.port = port
+        self.collection_name = collection_name
 
-    @classmethod
-    def create_client(cls,host:str,port:int):
-        cls.host = host
-        cls.port = port
-        chroma_client = chromadb.HttpClient(host=cls.host,port=cls.port)
+
+    @cached_property
+    def client(self)->ClientAPI:
+        chroma_client = chromadb.HttpClient(host=self.host,port=self.port)
         return chroma_client
 
-    def persist_embeddings(self):
-        pass
 
+    def create_collection(self):
+        collection = self.client.create_collection(name=self.collection_name)
+        return collection
 
+    @staticmethod
+    def persist_embeddings(collection:Collection,chunk_hash:str,embeddings:list) -> None:
+        collection.add(
+            embeddings=embeddings,
+            ids=[f"{chunk_hash}"]
+        )
 
 
 if __name__ =='__main__':
-    client = Chroma.create_client(host='localhost',port=5000)
+    pass
 
 
 
