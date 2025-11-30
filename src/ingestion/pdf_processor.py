@@ -25,16 +25,21 @@ class PdfProcessor(FileProcessor):
         collection = chroma.create_collection()
         for chunk in chunks:
             ollama_client = ollama.Client(host='http://ollama:11434')
-            response = ollama_client.embeddings(model='phi3', prompt=chunk)
+            response = ollama_client.embeddings(model='nomic-embed-text', prompt=chunk)
             # self.log.info(response)
             embedding_vector = response['embedding']
-            chroma.persist_embeddings(collection=collection,chunk_hash=str(hash(chunk)),embeddings=embedding_vector)
-            self.log.info(f"Persisted {hash(chunk)}")
+            chroma.persist_embeddings(
+                collection=collection,
+                chunk_hash=str(hash(chunk)),
+                embeddings=embedding_vector,
+                document=chunk
+            )
 
 
     def run(self):
         chunks = self.read_contents()
         self.parse_chunks(chunks=chunks)
+        self.log.info(f"Persisted")
     
 
 

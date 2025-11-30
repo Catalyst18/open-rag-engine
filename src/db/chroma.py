@@ -3,6 +3,7 @@ from functools import cached_property
 import chromadb
 from chromadb import ClientAPI
 from chromadb.types import Collection
+from chromadb.utils import embedding_functions
 
 
 class Chroma:
@@ -10,6 +11,13 @@ class Chroma:
         self.host = host
         self.port = port
         self.collection_name = collection_name
+
+    @cached_property
+    def embedding_function(self):
+        return embedding_functions.OllamaEmbeddingFunction(
+            url=f"http://ollama:11434/api/embeddings",
+            model_name="nomic-embed-text"
+        )
 
 
     @cached_property
@@ -19,13 +27,14 @@ class Chroma:
 
 
     def create_collection(self):
-        collection = self.client.create_collection(name=self.collection_name)
+        collection = self.client.create_collection(name=self.collection_name,embedding_function=self.embedding_function)
         return collection
 
     @staticmethod
-    def persist_embeddings(collection:Collection,chunk_hash:str,embeddings:list) -> None:
+    def persist_embeddings(collection:Collection,chunk_hash:str,embeddings:list,document:str) -> None:
         collection.add(
             embeddings=embeddings,
+            documents=[document],
             ids=[f"{chunk_hash}"]
         )
 
