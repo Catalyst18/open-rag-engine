@@ -15,7 +15,7 @@ class PdfProcessor(FileProcessor):
 
 
     @staticmethod
-    def chunk_text(text: str, max_chars: int = 800):
+    def chunk_text(text: str, max_chars: int = 1200):
         paragraphs = [p.strip() for p in text.split("\n\n") if p.strip()]
         chunk = ""
         for para in paragraphs:
