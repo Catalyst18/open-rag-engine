@@ -1,6 +1,9 @@
 # IntroductoryRag
 ![img.png](ideas/img.png)
 
+## Flow
+![img.png](img.png)
+
 ## To run locally
 1. Install docker desktop and docker-compose
 2. clone the repository

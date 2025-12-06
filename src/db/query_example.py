@@ -9,8 +9,8 @@ CHROMA_HOST = "localhost"
 CHROMA_PORT = 8000
 EMBED_MODEL = "nomic-embed-text"
 LM_MODEL = "phi3"
-TOP_K = 5
-MAX_CTX_CHARS = 2000
+TOP_K = 10
+MAX_CTX_CHARS = 6000
 
 
 def get_clients():
@@ -52,18 +52,19 @@ def build_prompt(question: str, context_chunks):
         context = context[:MAX_CTX_CHARS]
 
     prompt = f"""
-        You are a helpful assistant answering questions about a PDF document.
-        
-        Use ONLY the context below to answer. If the answer is not in the context,
-        say you don't know.
-        
-        Context:
-        {context}
-        
-        Question: {question}
-        
-        Answer:
-        """.strip()
+You are a helpful assistant answering questions about a PDF document.
+
+Use the context below as your main source of truth. 
+If the context does not contain enough information to answer the question,
+say explicitly that you don't know instead of inventing facts.
+
+Context:
+{context}
+
+Question: {question}
+
+Provide a clear, concise answer based only on the context.
+""".strip()
 
     return prompt
 
