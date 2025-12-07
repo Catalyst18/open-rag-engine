@@ -75,7 +75,4 @@ class PdfProcessor(FileProcessor):
 
 
 if __name__ == '__main__':
-    p = PdfProcessor("/Users/santosh.elangovan/PycharmProjects/RAG/pdftrainer/ideas/test.pdf")
-    contents = p.read_contents()
-    for c in contents:
-        print(c)
+    pass
