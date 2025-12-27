@@ -2,10 +2,24 @@ from fastapi import FastAPI, UploadFile, HTTPException, BackgroundTasks
 from .models import FileInfo
 from pydantic import ValidationError
 from ingestion.pdf_processor import PdfProcessor
-
+from db import get_db_connection
 app = FastAPI()
 
 processing_status: dict[str, str] = {} #Todo: add backend to persist the status of the file processed
+
+@app.on_event("startup")
+def test_db_connection():
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute("SELECT 1;")
+        cur.fetchone()
+        cur.close()
+        conn.close()
+        print("✅ Database connection successful")
+    except Exception as e:
+        print("❌ Database connection failed:", e)
+
 
 def run_pdf_background(filename: str):
     try:
