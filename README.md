@@ -32,3 +32,5 @@
   "status": "done"
 }```
 3. Now you can run the following command to use a cli chat assistant. ```python src/db/query_example.py <filename>.pdf```
+
+4. for windows machine make sure you turn LF in bottom of the vscode
