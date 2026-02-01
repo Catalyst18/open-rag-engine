@@ -24,14 +24,15 @@ async def create_upload_file(file: UploadFile,background_tasks: BackgroundTasks)
         total += len(chunk)
         chunk = await file.read(1024 * 64)
     await file.seek(0)
-    try:
-        info = FileInfo(file=file.filename, size=total)
-        info.save_file(file=file)
-        background_tasks.add_task(run_pdf_background, file.filename)
-    except ValidationError as exc:
-        raise HTTPException(status_code=400, detail=str(exc.errors()))
+    if  file.filename:
+        try:
+            info = FileInfo(file=file.filename, size=total)
+            info.save_file(file=file)
+            background_tasks.add_task(run_pdf_background, file.filename)
+        except ValidationError as exc:
+            raise HTTPException(status_code=400, detail=str(exc.errors()))
 
-    return  {"file": file.filename, "status": "processing"}
+        return  {"file": file.filename, "status": "processing"}
 
 @app.get("/files/{filename}/status")
 def get_file_status(filename: str):
