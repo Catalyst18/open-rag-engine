@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-class Database:
+class Database(ABC):
     def __init__(self,hostname:str):
         self.hostname = hostname
 
