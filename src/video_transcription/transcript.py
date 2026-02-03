@@ -11,6 +11,6 @@ def transcribe_ad(audio_path, transcript_path):
 
 
 transcribe_ad(
-    r" ", # Path to the audio file
-    r" " # Path to save the transcript file
+    r"C:\Users\TYSON\Desktop\Projects\old_rag\open-rag-engine\src\video_transcription\audio\output.mp3", # Path to the audio file
+    r"C:\Users\TYSON\Desktop\Projects\old_rag\open-rag-engine\src\video_transcription\transcribed_text\output.txt"# Path to save the transcript file
 )

@@ -31,7 +31,7 @@ def run_video_background(filename: str):
         # need to connect with ad, vd.py....
         video_status[filename] = "done"
     except Exception as e:
-        video_status[filename] = "error"
+        video_status[filename] = "error" 
         print(f"[VideoProcessor] ERROR for {filename}: {e}", flush=True)
 
 # endpoint to upload pdf files

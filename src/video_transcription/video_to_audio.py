@@ -1,10 +1,11 @@
 #this file is used to convert video files to audio files
-
+import os
 from moviepy import VideoFileClip
 
 def convert_video_to_audio(video_path, output_audio_path):
-    video_path=r""
-    output_audio_path=r""
+    video_path=r"C:\Users\TYSON\Desktop\Projects\old_rag\open-rag-engine\uploaded_videos\short.mp4"
+    output_audio_path = r"C:\Users\TYSON\Desktop\Projects\old_rag\open-rag-engine\src\video_transcription\audio\output.mp3"
+
 
     try:
         video_clip = VideoFileClip(video_path)
