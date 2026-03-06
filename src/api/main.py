@@ -1,7 +1,8 @@
 from fastapi import FastAPI, UploadFile, HTTPException, BackgroundTasks
 from .models import FileInfo
-from pydantic import ValidationError
-from ingestion.pdf_processor import PdfProcessor
+from pydantic import ValidationError, BaseModel
+from ingestion.pdf_processor import PdfProcessor 
+from psql_db.connection import get_connection
 
 app = FastAPI()
 
@@ -38,3 +39,29 @@ async def create_upload_file(file: UploadFile,background_tasks: BackgroundTasks)
 def get_file_status(filename: str):
     status = processing_status.get(filename, "unknown")
     return {"file": filename, "status": status}
+
+
+class User(BaseModel):
+    name: str
+    club: str
+
+@app.post("/users")
+def create_user(user: User):
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute(
+        "INSERT INTO users (name,club) VALUES(%s,%s) RETURNING id ;",
+        (user.name,user.club)
+
+    )
+    user_id = cur.fetchone()[0]
+    conn.commit()
+    conn.close()
+
+    return {
+        "message": "User stored successfully",
+        "user_id": user_id,
+        "name": user.name,
+        "club": user.club
+    }    

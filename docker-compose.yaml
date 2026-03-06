@@ -26,6 +26,21 @@ services:
       - IS_PERSISTENT=TRUE
       - ANONYMIZED_TELEMETRY=FALSE
 
+  postgres:
+    image: postgres:16
+    container_name: my_postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - app-net
+
   app:
     build:
       context: .
@@ -38,8 +53,12 @@ services:
     depends_on:
       - chroma
       - ollama
+      - postgres
     networks:
       - app-net
+
+volumes:
+  postgres-data:
 
 networks:
   app-net:
