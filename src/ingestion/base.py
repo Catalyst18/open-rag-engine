@@ -27,9 +27,9 @@ class MediaProcessor(ABC,LoggingMixin):
         super().__init__()
         self.file = file
     
-    def validate_file(self):
+    @abstractmethod
+    def read_contents(self):
         pass
-
 
 
 
