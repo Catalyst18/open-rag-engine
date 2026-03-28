@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from common.logs import LoggingMixin
+from src.common.logs import LoggingMixin
 
 
 class FileProcessor(ABC,LoggingMixin):
@@ -21,6 +21,15 @@ class FileProcessor(ABC,LoggingMixin):
 
     def save_to_db(self):
         pass
+
+class MediaProcessor(ABC,LoggingMixin):
+    def __init__(self,file) -> None:
+        super().__init__()
+        self.file = file
+    
+    def validate_file(self):
+        pass
+
 
 
 

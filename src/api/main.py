@@ -38,3 +38,8 @@ async def create_upload_file(file: UploadFile,background_tasks: BackgroundTasks)
 def get_file_status(filename: str):
     status = processing_status.get(filename, "unknown")
     return {"file": filename, "status": status}
+
+@app.post("/uploadvideo/")
+async def upload_video():
+    pass
+
