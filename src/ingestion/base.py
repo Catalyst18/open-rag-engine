@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from src.common.logs import LoggingMixin
+from common.logs import LoggingMixin
 
 
 class FileProcessor(ABC,LoggingMixin):
@@ -28,7 +28,7 @@ class MediaProcessor(ABC,LoggingMixin):
         self.file = file
     
     @abstractmethod
-    def read_contents(self):
+    def extract_audio(self):
         pass
 
 

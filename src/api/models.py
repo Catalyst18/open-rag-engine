@@ -22,10 +22,11 @@ class FileInfo(BaseModel):
 
     @field_validator('size')
     def validate_size(cls, size: int) -> int:
-        max_bytes = 62145 * 1024
+        max_bytes = 500 * 1024 * 1024
         if size <= max_bytes:
             return size
         raise ValueError(f'file size ({size} bytes) exceeds maximum of {max_bytes} bytes')
+
 
     @field_validator('file')
     @classmethod
