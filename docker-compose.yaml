@@ -35,6 +35,7 @@ services:
       - "80:80"
     volumes:
       - ./uploads:/opt/app/src/uploads
+      - ./uploaded_videos:/app/src/uploaded_videos
     depends_on:
       - chroma
       - ollama
