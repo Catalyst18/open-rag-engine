@@ -1,4 +1,3 @@
-from importlib.resources import path
 from pathlib import Path
 from typing import Any, Generator
 import ollama
@@ -23,16 +22,15 @@ class VideoProcessor(MediaProcessor):
             .input(str(video_path))
             .output(str(audio_path), ac=1, ar="16000")
             .overwrite_output()
-        .run(quiet=True)
-    )
+            .run(quiet=True)  # ✅ inside the chain
+        )
         return audio_path
 
     def transcribe_audio(self, audio_path: Path) -> list[dict]:
-        """Returns Whisper's native segments instead of raw text."""
         self.log.info(f"Transcribing audio: {audio_path}")
         model = whisper.load_model("base")
         result = model.transcribe(str(audio_path))
-        return result["segments"]  # each has: id, start, end, text
+        return result["segments"]
 
     def read_contents(self) -> Generator[dict, Any, None]:
         audio_path = self.extract_audio()
@@ -49,23 +47,22 @@ class VideoProcessor(MediaProcessor):
         self.log.info("Persisting video transcript embeddings")
         chroma = Chroma(collection_name=self.file)
         collection = chroma.create_collection()
+        ollama_client = ollama.Client(host='http://ollama:11434') 
 
         for segment in chunks:
-            ollama_client = ollama.Client(host='http://ollama:11434')
             response = ollama_client.embeddings(
                 model='nomic-embed-text',
                 prompt=segment["text"],
                 options={"num_ctx": 1024}
-        )
-        chroma.persist_embeddings(
-            collection=collection,
-            chunk_hash=str(hash(segment["text"])),
-            embeddings=response['embedding'],
-            document=segment["text"],
-           
-        )
+            )
+            chroma.persist_embeddings(  
+                collection=collection,
+                chunk_hash=str(hash(segment["text"])),
+                embeddings=response['embedding'],
+                document=segment["text"],
+            )
 
     def run(self):
-        chunks =self.read_contents()
+        chunks = self.read_contents()
         self.parse_chunks(chunks=chunks)
-        self.log.info("Video processing complete.")     
+        self.log.info("Video processing complete.")

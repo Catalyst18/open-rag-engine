@@ -2,6 +2,9 @@ FROM python:3.12
 
 WORKDIR /opt/app/
 
+# Install ffmpeg system binary
+RUN apt-get update && apt-get install -y ffmpeg && rm -rf /var/lib/apt/lists/*
+
 COPY poetry.lock /opt/app/poetry.lock
 COPY pyproject.toml /opt/app/pyproject.toml
 
