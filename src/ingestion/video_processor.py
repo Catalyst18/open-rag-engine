@@ -3,7 +3,7 @@ from typing import Any, Generator
 import ollama
 from db.chroma import Chroma
 from .base import MediaProcessor
-import whisper
+from faster_whisper import WhisperModel
 import ffmpeg
 
 
@@ -22,15 +22,15 @@ class VideoProcessor(MediaProcessor):
             .input(str(video_path))
             .output(str(audio_path), ac=1, ar="16000")
             .overwrite_output()
-            .run(quiet=True)  
+            .run(quiet=True)
         )
         return audio_path
 
     def transcribe_audio(self, audio_path: Path) -> list[dict]:
         self.log.info(f"Transcribing audio: {audio_path}")
-        model = whisper.load_model("base")
-        result = model.transcribe(str(audio_path))
-        return result["segments"]
+        model = WhisperModel("base")
+        segments, _ = model.transcribe(str(audio_path))
+        return [{"text": s.text, "start": s.start, "end": s.end} for s in segments]
 
     def read_contents(self) -> Generator[dict, Any, None]:
         audio_path = self.extract_audio()

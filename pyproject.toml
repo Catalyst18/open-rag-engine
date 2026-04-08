@@ -22,7 +22,7 @@ python-multipart = "^0.0.20"
 pytest = "^8.4.2"
 pypdf2 = "^3.0.1"
 chromadb = "^1.1.1"
-openai-whisper = "^20250625"
+faster-whisper = "^1.1.1"
 ffmpeg-python = "^0.2.0"
 
 

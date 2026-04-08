@@ -4,6 +4,15 @@
 ## Flow
 ![img.png](img.png)
 
+## Pre-requistie
+1. Some pypi package like pytorch requires installation of build tools like cmake.
+For Macos:
+   1. Install using the following command
+      ```brew install cmake && brew install llvm```
+
+For windows:
+   TBD
+
 ## To run locally
 1. Install docker desktop and docker-compose
 2. clone the repository
