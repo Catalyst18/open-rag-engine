@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any, Generator
+from typing import Any, Generator, cast
 import ollama
 import whisper
 from db.chroma import Chroma
@@ -21,7 +21,7 @@ class AudioProcessor(MediaProcessor):
         self.log.info(f"Transcribing audio: {audio_path}")
         model = whisper.load_model("base")
         result = model.transcribe(str(audio_path))
-        return result["segments"]
+        return cast(list[dict], result["segments"])
 
     def read_contents(self) -> Generator[dict, Any, None]:
         audio_path = UPLOAD_DIR / self.file
