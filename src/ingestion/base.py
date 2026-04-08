@@ -31,9 +31,3 @@ class MediaProcessor(ABC,LoggingMixin):
     def extract_audio(self):
         pass
 
-
-
-
-
-
-
