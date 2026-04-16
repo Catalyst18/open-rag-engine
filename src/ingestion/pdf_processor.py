@@ -69,7 +69,7 @@ class PdfProcessor(FileProcessor):
     def run(self):
         chunks = self.read_contents()
         self.parse_chunks(chunks=chunks)
-        self.log.info(f"Persisted")
+        self.log.info("Persisted")
     
 
 

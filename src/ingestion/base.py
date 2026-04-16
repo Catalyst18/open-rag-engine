@@ -22,9 +22,12 @@ class FileProcessor(ABC,LoggingMixin):
     def save_to_db(self):
         pass
 
-
-
-
-
-
+class MediaProcessor(ABC,LoggingMixin):
+    def __init__(self,file) -> None:
+        super().__init__()
+        self.file = file
+    
+    @abstractmethod
+    def extract_audio(self):
+        pass
 
